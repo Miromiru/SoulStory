@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://art/swiat/Untitled_Artwork-2.png" type="Texture" id=1]
+[ext_resource path="res://art/swiat/Untitled_Artwork-3.png" type="Texture" id=2]
+[ext_resource path="res://player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://bat.tscn" type="PackedScene" id=4]
+[ext_resource path="res://flower.tscn" type="PackedScene" id=5]
+[ext_resource path="res://spirit.tscn" type="PackedScene" id=6]
+[ext_resource path="res://art/swiat/Untitled_Artwork-1.png" type="Texture" id=7]
+[ext_resource path="res://Main.gd" type="Script" id=8]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=9]
+[ext_resource path="res://cave.ogg" type="AudioStream" id=10]
+
+[node name="Node" type="Node"]
+script = ExtResource( 8 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Sprite3" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 3672, 936 )
+texture = ExtResource( 7 )
+
+[node name="Area2D2" parent="StaticBody2D" instance=ExtResource( 5 )]
+position = Vector2( 4168, 1744 )
+mode = 1
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 3666.06, 965.139 )
+texture = ExtResource( 1 )
+
+[node name="Sprite2" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 3669.04, 970.079 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( -40, 72 )
+scale = Vector2( 0.930743, 0.939927 )
+polygon = PoolVector2Array( 1160.48, 2078.84, 1203.34, 2136.34, 4314.83, 2136.34, 4332.14, 1985.21, 4375, 1932.07, 4392.19, 1915.04, 4864.93, 1898.02, 5707.27, 1898.02, 5750.37, 1653.27, 6094.18, 1644.76, 6102.77, 1380.91, 8182.83, 1355.38, 8053.9, -576.686, 8320.35, -559.664, 8277.38, 2453.34, -395.261, 2538.45, -317.903, -602.22, 2415.4, -568.175, 2793.59, -542.641, 6248.89, -74.5198, 6240.3, 546.805, 5389.36, 997.904, 4942.41, 1287.29, 4134.45, 1287.29, 3988.33, 1508.58, 1624.63, 1559.65, 1607.32, 536.212, 2337.92, 536.212, 2243.49, -210.701, 183.432, -257.809, 51.6937, 155.285, 0.121971, 410.624, 51.5717, 544.723, 1315.08, 544.723, 1298.01, 1508.58, 1220.65, 1729.88, 1160.48, 1908.61 )
+
+[node name="bat" parent="." instance=ExtResource( 4 )]
+position = Vector2( 2600, 1920 )
+
+[node name="RigidBody2D" parent="." instance=ExtResource( 3 )]
+position = Vector2( 448, 416 )
+collision_mask = 0
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="RigidBody2D"]
+position = Vector2( 0, -24 )
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 448, 392 )
+current = true
+zoom = Vector2( 1.1, 1.1 )
+
+[node name="Soul" parent="." instance=ExtResource( 6 )]
+position = Vector2( 6360, 1160 )
+
+[node name="HUD" parent="." instance=ExtResource( 9 )]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.8
+one_shot = true
+
+[node name="cave" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
